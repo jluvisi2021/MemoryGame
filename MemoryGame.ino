@@ -35,8 +35,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
  */
 // Define pattern that will hold values RGB
 String pattern = "";
-// How large the pattern currently is.
-int patternSize = 20;
+// How large the pattern currently is. DEfAULT: 2
+int patternSize = 2;
 char color;
 
 void printLCD(String s1);
