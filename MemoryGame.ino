@@ -37,7 +37,7 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 String pattern = "";
 // How large the pattern currently is. DEfAULT: 2
 int patternSize = 2;
-char color;
+char color = 'N';
 
 void printLCD(String s1);
 void printLCD(String s1, String s2);
@@ -181,9 +181,6 @@ void loop()
         printLCD("Input Pattern", "Size: " + (String)patternSize);
         String userPattern = "";
         int presses = 0;
-        color = 'R';
-        // Set the LED to red by default.
-        flashRGB(255, 0, 0);
         while (presses != pattern.length()) {
             // While the user hasnt pressed submit
             while (digitalRead(SUBMIT) == HIGH) {
@@ -203,24 +200,24 @@ void loop()
             delay(200);
             ++presses;
         }
-        delay(3000);
+        delay(2900);
         printLCD("Checking...");
         // Check to see if the pattern is correct.
         delay(1150);
         if (userPattern == pattern) {
             printLCD("Sequence", "Correct!");
-            delay(4000);
+            delay(3900);
             printLCD("Streak: " + (String)patternSize);
-            delay(2500);
+            delay(2400);
         }
         else {
           // The player has input the wrong pattern.
             printLCD("Wrong Pattern!");
             buzz(1000);
-            delay(2000);
+            delay(1800);
             printLCD("You Lost!", "Streak: " + (String)patternSize);
             flashRGB(0, 0, 0);
-            delay(5000);
+            delay(4400);
             pattern = "";
             userPattern = "";
             patternSize = 2;
@@ -237,16 +234,21 @@ void loop()
 // Cycles through the LED based on the current color.
 void cycleLED()
 {
+  if(color == 'N') {
+    flashRGB(48, 0, 0);
+    color = 'R';
+    return;
+  }
     if (color == 'R') {
-        flashRGB(0, 255, 0);
+        flashRGB(0, 48, 0);
         color = 'G';
     }
     else if (color == 'G') {
-        flashRGB(0, 0, 255);
+        flashRGB(0, 0, 48);
         color = 'B';
     }
     else if (color == 'B') {
-        flashRGB(255, 0, 0);
+        flashRGB(48, 0, 0);
         color = 'R';
     }
 }
@@ -258,13 +260,13 @@ void flashLEDWithPattern()
 {
     for (int i = 0; i < pattern.length(); i++) {
         if (pattern[i] == 'R') {
-            flashRGB(255, 0, 0, 1500);
+            flashRGB(48, 0, 0, 1500);
         }
         else if (pattern[i] == 'G') {
-            flashRGB(0, 255, 0, 1500);
+            flashRGB(0, 48, 0, 1500);
         }
         else if (pattern[i] == 'B') {
-            flashRGB(0, 0, 255, 1500);
+            flashRGB(0, 0, 48, 1500);
         }
         delay(500);
     }
